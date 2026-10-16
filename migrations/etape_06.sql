@@ -1,7 +1,4 @@
--- Étape 06 : « On paie en espèces, MVola, Orange Money ou Airtel Money. Parfois un client paie une partie
---              en espèces et le reste par MVola. Pour le mobile money, je note la référence de la transaction. »
--- Table de référence mode_paiement + table paiement (une commande peut avoir plusieurs paiements).
-
+-- Étape 06 : 
 CREATE TABLE mode_paiement (
     id_mode INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     libelle VARCHAR(30) NOT NULL UNIQUE
@@ -16,12 +13,12 @@ CREATE TABLE paiement (
     id_paiement   INTEGER   GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_commande   INTEGER   NOT NULL,
     id_mode       INTEGER   NOT NULL,
-    montant       INTEGER   NOT NULL CHECK (montant > 0),       -- ariary, sans centimes
-    reference     VARCHAR(50),                                   -- facultative : référence de transaction mobile money
+    montant       INTEGER   NOT NULL CHECK (montant > 0),       
+    reference     VARCHAR(50),                                   
     date_paiement TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_paiement_commande FOREIGN KEY (id_commande) REFERENCES commande (id_commande),
     CONSTRAINT fk_paiement_mode     FOREIGN KEY (id_mode)     REFERENCES mode_paiement (id_mode),
-    CONSTRAINT uq_paiement_reference UNIQUE (id_mode, reference)  -- une même transaction ne s'enregistre qu'une fois
+    CONSTRAINT uq_paiement_reference UNIQUE (id_mode, reference)  
 );
 
 -- Commande 1 : 10 000 Ar en espèces + 5 000 Ar par MVola
